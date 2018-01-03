@@ -1,0 +1,97 @@
+
+			#cabecalho {
+				height: 60px;
+				background-color: cyan;
+				padding-left: 40px;
+			}
+			
+			#menu {
+				text-align: center;
+				padding-top: 20px;
+				width: 40%;
+				margin: auto;
+			}
+			
+			#letraCabecalho {
+				font-family: Impact;
+				font-size: 16px;								
+				
+			}
+			
+			#conteudoUser {
+				text-align: right; 
+				width: 70%;
+				Display: inline-block;
+			}
+			
+			#conteudoPensamento {
+				padding-top: 15px; 
+				width: 25%;
+				Display: inline-block;
+			}
+			
+			#titulo {
+				font-family: Arial;			
+			}
+			
+			#btnMenu {
+				margin: 5px;
+			}
+			
+			#conteudo{
+				background-color: lightblue;
+			}
+
+			#separa{														
+				display: inline-block;
+				vertical-align: top;
+			}
+
+			#despesas {
+				width: 40%;
+				margin-top: 60px;
+				margin-left: 50px;				
+				display: inline-block;
+			}
+
+			#entradas {
+				width: 40%;
+				margin-top: 60px;
+				display: inline-block;
+			}
+
+			#camposDespesas{
+				padding-left: 40px;
+				padding-bottom: 20px;
+				padding-top: 20px;
+			}
+
+			#fontDespesas{
+				font-family: Arial;
+				font-weight: bold;
+				font-size: 14px; 
+			}
+
+			#letraCabecalhoDesp {
+				font-family: Impact;
+				font-size: 20px;								
+				
+			}
+
+			#inputsDesp{
+				width: 80%;
+				height: 30px;
+			}
+
+			#tabela {
+				width: 70%;
+			}
+
+			#tbTitulo {
+				text-align: center;
+				font-weight: bold;
+			}
+
+			#tbConteudo {
+				text-align: center;
+			}
