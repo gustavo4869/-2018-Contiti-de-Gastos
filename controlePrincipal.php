@@ -21,8 +21,7 @@
 <!-- saved from url=(0041)http://localhost:30/controlePrincipal.php -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Controle de Entrada e Saída</title>
-		
-		  
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>		  
 		<link rel="stylesheet" type="text/css" href="buttons.css">
 		<link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
 		<link rel="stylesheet" type="text/css" href="estilo.css">		
@@ -76,7 +75,8 @@
 				margin: 5px;
 			}
 			
-			#conteudo{
+			#conteudo{\
+				text-align: center;
 				height: 100%;
 				background-color: lightblue;				
 			}			
@@ -118,7 +118,9 @@
 			}
 
 			#tabela {
-				width: 100%;
+				margin: 0 auto;
+				width: 90%;
+				
 			}
 
 			#tbTitulo {
@@ -150,17 +152,23 @@
 				font-size: 25px;
 				color: red;
 			}
+
+			#fonteBalancoEntrada{
+				font-family: impact;
+				font-size: 25px;
+				color: green;
+			}
 		</style>
 	</head>
 	<body bgcolor="cyan">
 		<div id="cabecalho">
 			<div id="conteudoPensamento">
-				<img src="./controlePrincipal.php_files/pensamento.png">				
+				<img src="ibagens/pensamento.png">				
 				<font id="letraCabecalho">&nbsp;&nbsp;&nbsp;$FraseDia</font>					
 			</div>
 
 			<div id="conteudoUser">
-				<img src="./controlePrincipal.php_files/user.png">
+				<img src="ibagens/user.png">
 				<font id="letraCabecalho">&nbsp;&nbsp;&nbsp;<?php echo $_SESSION["user"]; ?> , <a href="menu.php">Sair</a></font>				
 			</div>				
 		</div>		
@@ -170,7 +178,7 @@
 			<div id="despesas">
 				<center><h2 id="letraCabecalhoDesp">Despesas</h2></center>
 				<div id="camposDespesas">
-					<form name="formDespesa" id="formDespesa" action="http://localhost:30/gravaDespesa.php">
+					<form name="formDespesa" id="formDespesa" action="http://localhost/gravaDespesa.php" autocomplete="off">
 						<font id="fontDespesas">
 							<div class="row">
 								<div class="form-group col-md-6">
@@ -257,12 +265,37 @@
 				?>
 				<br><br>
 				<font id="fonteBalanco">Balanço Mensal</font>			
-				<br>
-				R$
+				<br>				
+					<?php					
+						$mesAtual = date('m');
+						$somaDespesa = "select sum(valor) from tdespesas where CPF='$cpf' AND MONTH(Data) = '$mesAtual'";
+						$somaEntrada = "select sum(valor) from tentradas where CPF='$cpf' AND MONTH(Data) = '$mesAtual'";
+						$query1 = mysqli_query($conn, $somaDespesa);
+						$query2 = mysqli_query($conn, $somaEntrada);
+						$row1 = mysqli_fetch_array($query1);
+						$row2 = mysqli_fetch_array($query2);	
+						$resultSomaDespesa = $row1[0];
+						$resultSomaEntrada = $row2[0];
+
+						$resultadoFinal = $resultSomaEntrada - $resultSomaDespesa;
+						if($resultadoFinal > 0)
+							echo "<font id=fonteBalancoEntrada>R$ " . number_format($resultadoFinal, 2, ',', '.') . "</font>";
+						else
+							echo "<font id=fonteBalancoSaida>R$ " . number_format($resultadoFinal, 2, ',', '.') . "</font>";
+						
+					?>				
 				<br><br>
 				<font id="fonteBalanco">Entrada Total</font>
-				<br>
-				R$
+				<br>				
+					<?php					
+						$mesAtual = date('m');
+						$sql = "select SUM(valor) from tentradas where CPF = '$cpf' AND MONTH(Data) = '$mesAtual'";
+						$query = mysqli_query($conn, $sql);
+						while($row = mysqli_fetch_array($query)){
+							$somaDespesas = $row[0];
+							echo "<font id=fonteBalancoEntrada>R$ " . number_format($somaDespesas, 2, ',', '.') . "</font>";
+						}
+					?>				
 				<br><br>
 				<font id="fonteBalanco">Despesa Total</font>
 				<br>				
@@ -279,7 +312,7 @@
 			<div id="entradas">
 				<center><h2 id="letraCabecalhoDesp">Entradas</h2></center>
 				<div id="camposDespesas">
-					<form name="formEntrada" id="formEntrada">						
+					<form name="formEntrada" id="formEntrada" autocomplete="off" action="gravaEntrada.php">						
 						<font id="fontDespesas">
 							<div class="row">
 								<div class="form-group col-md-6">
@@ -291,7 +324,7 @@
 									<select class="form-control" id="inputsDesp" name="selectCategoriaEntrada" required="">
 								      <option value = "-1">Selecione uma Opção...</option>
 										<?php
-											$sql = "select * from tcategoria";
+											$sql = "select * from tcategoriaentrada";
 											$result = mysqli_query($conn, $sql);											
 											while($row = mysqli_fetch_array($result)){
 												$idCategoria = $row["ID"];
@@ -333,14 +366,14 @@
 							</thead>
 								<?php	
 									$mesAtual = date('m');
-									$sql = "select * from tdespesas where CPF = '$cpf' AND MONTH(Data) = '$mesAtual'";
+									$sql = "select * from tentradas where CPF = '$cpf' AND MONTH(Data) = '$mesAtual'";
 									$result = mysqli_query($conn, $sql);
 									while($r = mysqli_fetch_array($result)){
 											$data = $r["Data"];
 											$dataFormatada = date("d/m/Y", strtotime($data));
 											
 											$idCategoria = $r["ID_Categoria"];											
-											$sql1 = "select Descricao from tcategoria where ID = '$idCategoria'";
+											$sql1 = "select Descricao from tcategoriaentrada where ID = '$idCategoria'";
 											$result1 = mysqli_query($conn, $sql1);
 											$row = mysqli_fetch_array($result1);
 											$categoria = $row[0];
