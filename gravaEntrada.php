@@ -18,9 +18,15 @@
 		die("Connection failed: " . mysqli_connect_error());
 	}
 
-	$categoria = $_GET["categoriaDespesa"];
-	$sql = "INSERT INTO tcategoria(Descricao) Values('$categoria')";
-	$query = mysqli_query($conn, $sql);
+	$cpf = $_SESSION["cpf"];
+	$data = $_GET["dataEntrada"];
+	$codCategoria = $_GET["selectCategoriaEntrada"];
+	$descricao = $_GET["descEntrada"];
+	$valor = $_GET["valorEntrada"];
 
-	header("Location: cadastroCategoria.php");
+	$sql = "INSERT INTO tentradas (CPF, Data, ID_Categoria, Descricao, Valor) VALUES ('$cpf', '$data', '$codCategoria', '$descricao', '$valor')";
+	$insere = mysqli_query($conn, $sql);
+
+	header("Location: controlePrincipal.php");
+	
 ?>

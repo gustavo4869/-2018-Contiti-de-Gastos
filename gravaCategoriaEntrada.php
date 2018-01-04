@@ -18,8 +18,8 @@
 		die("Connection failed: " . mysqli_connect_error());
 	}
 
-	$categoria = $_GET["categoriaDespesa"];
-	$sql = "INSERT INTO tcategoria(Descricao) Values('$categoria')";
+	$categoria = $_GET["categoriaEntrada"];
+	$sql = "INSERT INTO tcategoriaentrada(Descricao) Values('$categoria')";
 	$query = mysqli_query($conn, $sql);
 
 	header("Location: cadastroCategoria.php");
