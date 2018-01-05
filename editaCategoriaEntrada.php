@@ -17,15 +17,11 @@
 	if (!$conn) {
 		die("Connection failed: " . mysqli_connect_error());
 	}
-	
-	$tipoCategoria = $_GET["tipoCategoria"];	
-	$categoria = $_GET["categoriaDespesa"];
-	
-	if($tipoCategoria == 1)
-		$sql = "INSERT INTO tcategoria(Descricao) Values('$categoria')";	
-	else if($tipoCategoria == 2)
-		$sql = "INSERT INTO tcategoriaentrada(Descricao) Values('$categoria')";
-		
+
+	$idCategoria = $_GET["selectCategoriaEntrada"];
+	$categoria = $_GET["editCategoriaEntrada"];	
+	$sql = "UPDATE tcategoriaentrada SET Descricao = '$categoria' WHERE ID = '$idCategoria'";
 	$query = mysqli_query($conn, $sql);
+
 	header("Location: cadastroCategoria.php");
 ?>

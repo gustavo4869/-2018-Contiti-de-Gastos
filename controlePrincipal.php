@@ -188,7 +188,7 @@
 								<div class="form-group col-md-6">
 									Categoria 
 									<select class="form-control" id="inputsDesp" name="selectCategoriaDespesa" required="">
-										<option value = "-1">Selecione uma Opção...</option>
+										<option value = "0">Selecione uma Opção...</option>
 										<?php
 											$sql = "select * from tcategoria";
 											$result = mysqli_query($conn, $sql);											
@@ -322,7 +322,7 @@
 								<div class="form-group col-md-6">
 									Categoria 
 									<select class="form-control" id="inputsDesp" name="selectCategoriaEntrada" required="">
-								      <option value = "-1">Selecione uma Opção...</option>
+								      <option value = "0">Selecione uma Opção...</option>
 										<?php
 											$sql = "select * from tcategoriaentrada";
 											$result = mysqli_query($conn, $sql);											
